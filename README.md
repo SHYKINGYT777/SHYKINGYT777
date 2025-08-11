@@ -1,43 +1,34 @@
-#include <stdio.h>
-#include <math.h>
-#define TRUE 1
-#define FALSE 0
-#define MAX 10
+cat > result <<EOF
+Alice IT 9.5
+Bob CSE 9.2
+Charlie ECE 8.9
+David IT 9.8
+Emma CSE 9.1
+Frank IT 9.5
+Grace ME 8.7
+Hannah IT 9.9
+Ivan CSE 9.4
+Jack ECE 9.0
 
-int x[MAX];  // This will store the positions of queens on the board
+awk '$3 == 9.5' result
+sort -k3 -nr result | head -n 3
+awk '$2 == "IT"' result | sort -k3 -nr
+find . -maxdepth 1 -type f | wc -l
 
-int feasible(int k, int j) {
-    for (int i = 1; i <= k - 1; i++) {
-        // Check if queens are in the same column or diagonal
-        if (x[i] == j || abs(j - x[i]) == abs(k - i))
-            return FALSE;
-    }
-    return TRUE;
-}
 
-void print_solution(int n) {
-    for (int i = 1; i <= n; i++) {
-        printf("%d ", x[i]);
-    }
-    printf("\n");
-}
-
-void recur_nqueens(int k, int n) {
-    for (x[k] = 1; x[k] <= n; x[k]++) {
-        if (feasible(k, x[k])) {
-            if (k == n) {
-                print_solution(n);  // Print the solution when a queen is placed in every row
-            } else {
-                recur_nqueens(k + 1, n);  // Recur to place the queen in the next row
-            }
-        }
-    }
-}
-
-int main() {
-    int n;
-    printf("Enter the number of queens: ");
-    scanf("%d", &n);
-    recur_nqueens(1, n);  // Start from the first row
-    return 0;
-}
+tr '\n' ' ' < filename
+paste -sd ' ' filename
+sed -n '5,10p' filename
+awk 'NR>=5 && NR<=10' filename
+cat > result <<EOF
+Alice IT 9.5
+Bob CSE 9.2
+Charlie ECE 8.9
+David IT 9.8
+Emma CSE 9.1
+Frank IT 9.5
+Grace ME 8.7
+Hannah IT 9.9
+Ivan CSE 9.4
+Jack ECE 9.0
+EOF
